@@ -1,0 +1,5 @@
+/dist
+/test/spec
+/types/**/*.ts
+/node_modules
+.DS_Store
