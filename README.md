@@ -1,5 +1,7 @@
 # ok-store
 
+[![Build Status](https://travis-ci.org/ykdr2017/ok-store.svg?branch=master)](https://travis-ci.org/ykdr2017/ok-store)
+
 ## ABOUT ok-store
 
 This is a set of TypeScript/JavaScript classes that provides observable kernel as the store.
