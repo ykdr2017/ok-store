@@ -1,12 +1,15 @@
 {
 	"name": "ok-store",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "snow",
 	"license": "MIT",
-	"description": "A set of classes for the store/model for web.",
-	"repository": {},
+	"description": "A set of classes for providing store/model for web.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ykdr2017/ok-store.git"
+	},
 	"main": "./dist/js/index.js",
-	"types": "",
+	"types": "./types/index.d.ts",
 	"config": {},
 	"scripts": {
 		"update": "tsconfig .",

@@ -5,8 +5,8 @@
 ## ABOUT ok-store
 
 This is a set of TypeScript/JavaScript classes that provides observable kernel as the store.
-The store here is used for what we call Model, State and Store in the context of web applications.
-An instance of its store class can keep states of view, and handle changes of them.
+The store here is used for what we call Model, State and/or Store in the context of web applications.
+An instance of its Store class can keep states of view, and handle changes of them.
 
 ## INSTALL
 
