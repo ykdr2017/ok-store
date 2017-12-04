@@ -48,7 +48,8 @@
 		"typescript": "^2.5.3",
 		"uglifyjs-webpack-plugin": "^1.0.0-beta.3",
 		"watch": "^1.0.2",
-		"webpack": "^2.2.0"
+		"webpack": "^2.2.0",
+		"webpack-node-externals": "^1.6.0"
 	},
 	"files": [
 		"/dist",

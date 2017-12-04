@@ -6,10 +6,12 @@
 
 const path = require("path");
 const UglifyPlugin = require('uglifyjs-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 	context: __dirname,
-	target: 'web',
+	target: 'node',
+	externals: [nodeExternals()],
 	entry: {
 		main: ['./src/ts/main']
 	},
@@ -25,7 +27,7 @@ module.exports = {
 		}
 	},
 	plugins: [
-	  new UglifyPlugin()
+		//new UglifyPlugin()
 	],
 	module: {
 		rules: [{
@@ -37,5 +39,10 @@ module.exports = {
 				loader: 'ts-loader'
 			}
 		}]
+	},
+	node: {
+		fs: 'empty',
+		net: 'empty',
+		tls: 'empty'
 	}
 };
