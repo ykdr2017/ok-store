@@ -6,7 +6,7 @@
         "noImplicitAny": true,
         "removeComments": false,
         "module": "commonjs",
-        "target": "ESNext",
+        "target": "esnext",
         "jsx": "react",
         "allowJs": false,
         "declaration": true,

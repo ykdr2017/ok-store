@@ -4,13 +4,13 @@
  |--------------------------------------------------------------------------
  */
 
-const path = require("path");
-const glob = require("glob");
+const path = require('path');
+const glob = require('glob');
 
 let entries = {};
-glob.sync("./test/src/**/*.@(ts|tsx|js)").map(function(file) {
+glob.sync('./test/src/**/*.@(ts|tsx|js)').map(function(file) {
 	let outPath = file
-			.replace(/\.\/test\/src\//, "./test/spec/")
+			.replace(/\.\/test\/src\//, './test/spec/')
 			.replace(/(.*)\..*/, "$1");
 	entries[outPath] = [file];
 });
