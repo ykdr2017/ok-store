@@ -4,8 +4,8 @@
 
 ## ABOUT ok-store
 
-This is a set of TypeScript/JavaScript classes that provides observable kernel as the store.
-The store here is used for what we call Model, State and/or Store in the context of web applications.
+This is a set of TypeScript/JavaScript classes that provides observable object as the Store.
+The Store here is used for what we call Model(of MVC, MVVM), State and/or Store(of Flux, Redux) in the context of web applications.
 An instance of its Store class can keep states of view, and handle changes of them.
 
 ## INSTALL
@@ -13,73 +13,122 @@ An instance of its Store class can keep states of view, and handle changes of th
 ```Shell
 $ npm install ok-store
 ```
-## USAGE
+
+## USAGE (TypeScript)
+
+### Create a Store
+
+At first you define a state extending ok.State,
+and create a store that extending ok.Store .
+
+The state includes Items instance.
+Items instance is an associative array that keeps state of the Store.
+Items instance is variable by Updators, observable by Publishers,
+and referable by Getters method in the Store.
 
 ```TypeScript
+/* ExampleStore.ts */
+
 import * as ok from "ok-store";
 
-const tgt: c.IStore = new c.IStore(
-    c.state, new c.Updators(), new c.Publishers(), new c.Getters(),
-);
+/* STATE */
+class Items {
+	public a: string = 'a';
+	public b: number = 0;
+	public c = {
+		a: 'ca',
+		b: 1,
+		c: {
+			a: 'cca',
+			b: 1,
+		},
+	};
+}
+class IState extends ok.State<Items> {
+	constructor(i: Items) { super(i); }
+}
+let state: IState = new IState(new Items());
 
-let a: string = tgt.getters.a().a;
+/* STORE */
+class Updators {
+	public a = state.createUpdator<{a: string}>((i, u) => { i.a = u.a; });
+}
+class Publishers {
+	public a = state.createPublisher<{a: string}>((i) => ({ a: i.a }));
+}
+class Getters {
+	public a = state.createGetter<{a: string}>((i) => ({ a: i.a }));
+}
+class IStore extends ok.Store<Items, Updators, Publishers, Getters> {
+	constructor(s: ok.State<Items>, u: Updators, p: Publishers, g: Getters) {
+		super(s, u, p, g);
+	}
+}
+export default const store: IStore = new IStore(
+    state, new Updators(), new Publishers(), new Getters(),
+);
+```
+
+### Use the Store
+
+`store.getters` can get current parameter of the Store.
+Each getters methods will get transformed objects from the original Items by the store definition above.
+So you can get suitable value for each view or other communications.
+
+```TypeScript
+/* ExampleApp1.ts */
+
+import store from "./ExampleStore";
+
+let a: string = store.getters.a().a;
 
 console.log(a); // => 'a'
+```
 
-tgt.updators.a(() => ({ a: 'changed' }));
-a = tgt.getters.a().a;
+`store.updators` can update the Store.
+Each updators methods require certain object argument by the store definition 
+(just like payload of Redux Action).
+
+```TypeScript
+/* ExampleApp2.ts */
+
+import store from "./ExampleStore";
+
+let a: string;
+
+store.updators.a(() => ({ a: 'changed' }));
+a = store.getters.a().a;
 
 console.log(a); // => 'changed'
 
-tgt.updators.a(() => ({ a: 'a' }));
+```
 
+`store.publishers` can call functions when the Store is updated.
+Each publishers methods can refer certain object transformed from the store items by function argument.
+
+```TypeScript
+/* ExampleApp3.ts */
+
+import store from "./ExampleStore";
+
+let a: string;
 let cnt: number = 0;
 
-tgt.publishers.a((p) => {
-    a = tgt.getters.a().a;
+store.publishers.a((p) => {
+    a = p.a;
     if (cnt === 0) {
         console.log(a); // => 'a'
     } else if (cnt === 1) {
         console.log(a); // => 'changed'
-        done();
     }
     cnt++;
 });
-tgt.updators.a(() => ({ a: 'changed' }));
 
-namespace c {
-	/* STATE */
-	export class Items {
-		public a: string = 'a';
-		public b: number = 0;
-		public c = {
-			a: 'ca',
-			b: 1,
-			c: {
-				a: 'cca',
-				b: 1,
-			},
-		};
-	}
-	export class IState extends ok.State<c.Items> {
-		constructor(i: c.Items) { super(i); }
-	}
-	export let state: c.IState = new c.IState(new c.Items());
-	/* STORE */
-	export class Updators {
-		public a = c.state.createUpdator<{a: string}>((i, u) => { i.a = u.a; });
-	}
-	export class Publishers {
-		public a = c.state.createPublisher<{a: string}>((i) => ({ a: i.a }));
-	}
-	export class Getters {
-		public a = c.state.createGetter<{a: string}>((i) => ({ a: i.a }));
-	}
-	export class IStore extends ok.Store<c.Items, c.Updators, c.Publishers, c.Getters> {
-		constructor(s: ok.State<c.Items>, u: c.Updators, p: c.Publishers, g: c.Getters) { super(s, u, p, g); }
-	}
-}
+store.updators.a(() => ({ a: 'changed' }));
 ```
+
+By setting a view rendering method (like ReactDOM.render) in publishers,
+you can use the store as a data bindings utility.
 
 ## DEVELOP
 
