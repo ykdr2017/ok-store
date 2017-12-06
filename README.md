@@ -18,8 +18,8 @@ $ npm install ok-store
 
 ### Create a Store
 
-At first you define a state extending ok.State,
-and create a store that extending ok.Store .
+First of all you define a state extending ok.State,
+and create a store extending ok.Store .
 
 The state includes Items instance.
 Items instance is an associative array that keeps state of the Store.
