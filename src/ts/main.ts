@@ -5,7 +5,7 @@ import deepequal = require('deep-equal');
  * A Class which includes items and observers functions.
  * @param I Type of items.
  */
-export abstract class State<I> {
+export class State<I> {
 	/**
 	 * @constructor
 	 * @param items Items for UI model.
@@ -100,7 +100,7 @@ export abstract class State<I> {
  * @param P Class of publisher functions set.
  * @param G Class of getter functions set.
  */
-export abstract class Store<I, U, P, G> {
+export class Store<I, U, P, G> {
 	/**
 	 * @constructor
 	 * @param state State instance for this store.

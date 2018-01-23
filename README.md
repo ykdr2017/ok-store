@@ -18,8 +18,8 @@ $ npm install ok-store
 
 ### Create a Store
 
-First of all you define a state extending ok.State,
-and create a store extending ok.Store .
+First of all you define a state as an instance of ok.State,
+and create a store as an instance of ok.Store .
 
 The state includes Items instance.
 Items instance is an associative array that keeps state of the Store.
@@ -44,10 +44,7 @@ class Items {
 		},
 	};
 }
-class IState extends ok.State<Items> {
-	constructor(i: Items) { super(i); }
-}
-let state: IState = new IState(new Items());
+let state = new ok.State(new Items());
 
 /* STORE */
 class Updators {
@@ -59,12 +56,8 @@ class Publishers {
 class Getters {
 	public a = state.createGetter<{a: string}>((i) => ({ a: i.a }));
 }
-class IStore extends ok.Store<Items, Updators, Publishers, Getters> {
-	constructor(s: ok.State<Items>, u: Updators, p: Publishers, g: Getters) {
-		super(s, u, p, g);
-	}
-}
-export default const store: IStore = new IStore(
+
+export default const store = new ok.Store(
     state, new Updators(), new Publishers(), new Getters(),
 );
 ```
