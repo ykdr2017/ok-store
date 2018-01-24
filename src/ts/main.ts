@@ -52,7 +52,7 @@ export class State<I> {
 	 * @param fo Function that prepares current paramater before update.
 	 * @returns {(fu: (o?: Su) => Su) => void}
 	 */
-	public createUpdator<Su>(fa: ((i: I, u: Su) => void), fo?: ((i: I) => Su))
+	public createUpdator<Su = I>(fa: ((i: I, u: Su) => void), fo?: ((i: I) => Su))
 			: (fu: (o?: Su) => Su) => void {
 		let __this: State<I> = this;
 		return function (fu: (o?: Su) => Su): void {
@@ -66,7 +66,7 @@ export class State<I> {
 	 * @param fa Function that converts updated state items to the parameter.
 	 * @returns {(fp: (p: Sp) => void) => void}
 	 */
-	public createPublisher<Sp>(fa: ((i: I) => Sp))
+	public createPublisher<Sp = I>(fa: ((i: I) => Sp))
 			: (fp: (p: Sp) => void) => void {
 		let __this: State<I> = this;
 		return function (fp: (p: Sp) => void): void {
@@ -86,7 +86,7 @@ export class State<I> {
 	 * @param fa Function that converts current state items to the parameter.
 	 * @returns {Sg}
 	 */
-	public createGetter<Sg>(fa: ((i: I) => Sg)): () => Sg {
+	public createGetter<Sg = I>(fa: ((i: I) => Sg)): () => Sg {
 		let __this: State<I> = this;
 		return function (): Sg {
 			return fa(deepcopy<I>(__this.items));

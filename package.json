@@ -1,6 +1,6 @@
 {
 	"name": "ok-store",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": "snow",
 	"license": "MIT",
 	"description": "A set of classes for providing store/model for web.",
