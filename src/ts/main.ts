@@ -36,11 +36,10 @@ export class State<I> {
 	 * Runs observer functions.
 	 * @returns {void}
 	 */
-	protected dispatch(): void {
+	protected dispatch(newItems: I): void {
 		let __this: State<I> = this;
-		let itemNow: I = deepcopy<I>(__this.items);
-		let itemsOld: I = deepcopy<I>(__this.itemsOld);
-		__this.itemsOld = deepcopy<I>(__this.items);
+		let itemNow: I = deepcopy<I>(newItems);
+		let itemsOld: I = deepcopy<I>(__this.items);
 		__this.observers.map(f => {
 			f(itemNow, itemsOld);
 		});
@@ -56,8 +55,10 @@ export class State<I> {
 			: (fu: (o?: Su) => Su) => void {
 		let __this: State<I> = this;
 		return function (fu: (o?: Su) => Su): void {
-			fa(__this.items, fu(fo ? fo(__this.items) : undefined));
-			__this.dispatch();
+			let newItems: I = deepcopy<I>(__this.items);
+			fa(newItems, fu(fo ? fo(__this.items) : undefined));
+			__this.dispatch(newItems);
+			__this.items = newItems;
 		};
 	}
 	/**
